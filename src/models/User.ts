@@ -1,5 +1,4 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../config/db';
+import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 
 export interface UserAttributes {
   id: number;
@@ -15,34 +14,36 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public username!: string;
   public email!: string;
   public password!: string;
-}
 
-User.init(
-  {
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  },
-  {
-    sequelize,
-    tableName: 'users',
+  public static initialize(sequelize: Sequelize) {
+    User.init(
+      {
+        id: {
+          type: DataTypes.INTEGER.UNSIGNED,
+          autoIncrement: true,
+          primaryKey: true,
+        },
+        username: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          unique: true,
+        },
+        email: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          unique: true,
+        },
+        password: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+      },
+      {
+        sequelize,
+        tableName: 'users',
+      }
+    );
   }
-);
+}
 
 export default User;

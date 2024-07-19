@@ -1,34 +1,30 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
+import Tweet from './Tweet';
 import User from './User';
 
-interface TweetAttributes {
+interface TagAttributes {
   id: number;
-  content: string;
+  tweetId: number;
   userId: number;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 
-interface TweetCreationAttributes extends Optional<TweetAttributes, 'id'> {}
+interface TagCreationAttributes extends Optional<TagAttributes, 'id'> {}
 
-class Tweet extends Model<TweetAttributes, TweetCreationAttributes> implements TweetAttributes {
+class Tag extends Model<TagAttributes, TagCreationAttributes> implements TagAttributes {
   public id!: number;
-  public content!: string;
+  public tweetId!: number;
   public userId!: number;
 
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-
   public static initialize(sequelize: Sequelize) {
-    Tweet.init(
+    Tag.init(
       {
         id: {
           type: DataTypes.INTEGER.UNSIGNED,
           autoIncrement: true,
           primaryKey: true,
         },
-        content: {
-          type: DataTypes.STRING(280),
+        tweetId: {
+          type: DataTypes.INTEGER.UNSIGNED,
           allowNull: false,
         },
         userId: {
@@ -38,10 +34,10 @@ class Tweet extends Model<TweetAttributes, TweetCreationAttributes> implements T
       },
       {
         sequelize,
-        tableName: 'tweets',
+        tableName: 'tags',
       }
     );
   }
 }
 
-export default Tweet;
+export default Tag;
