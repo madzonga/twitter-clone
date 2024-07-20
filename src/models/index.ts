@@ -1,16 +1,10 @@
-import { Sequelize } from 'sequelize';
 import User from './User';
 import Tweet from './Tweet';
 import Tag from './Tag';
 import dotenv from 'dotenv';
+import sequelize from '../config/db';
 
 dotenv.config();
-
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: process.env.DB_PATH || './database.sqlite',
-  logging: false, // Set to true for SQL query logging
-});
 
 // Initialize models
 User.initialize(sequelize);
@@ -21,7 +15,7 @@ Tag.initialize(sequelize);
 User.hasMany(Tweet, { foreignKey: 'userId' });
 Tweet.belongsTo(User, { foreignKey: 'userId' });
 
-User.belongsToMany(Tweet, { through: Tag, foreignKey: 'userId' });
-Tweet.belongsToMany(User, { through: Tag, foreignKey: 'tweetId' });
+User.belongsToMany(Tweet, { through: Tag, as: 'TaggedTweets', foreignKey: 'userId' });
+Tweet.belongsToMany(User, { through: Tag, as: 'Tags', foreignKey: 'tweetId' });
 
 export { sequelize, User, Tweet, Tag };

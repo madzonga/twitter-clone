@@ -1,6 +1,4 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
-import Tweet from './Tweet';
-import User from './User';
 
 interface TagAttributes {
   id: number;

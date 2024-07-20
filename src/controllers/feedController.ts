@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import Tweet from '../models/Tweet';
 import User from '../models/User';
-import Tag from '../models/Tag';
 
 const getTimeline = async (req: Request, res: Response) => {
   try {
@@ -19,19 +18,21 @@ const getTimeline = async (req: Request, res: Response) => {
     });
 
     const taggedTweets = await Tweet.findAll({
-      include: [
-        {
-          model: User,
-          through: {
-            attributes: [],
+        include: [
+          {
+            model: User,
+            as: 'Tags',
+            where: {
+              id: user.id,
+            },
+            attributes: ['id', 'username'],  // Adjust attributes as needed
+            through: {
+              attributes: [],  // Exclude join table attributes
+            },
           },
-          where: {
-            id: user.id,
-          },
-        },
-      ],
-      order: [['createdAt', 'DESC']],
-    });
+        ],
+        order: [['createdAt', 'DESC']],
+      });
 
     const timeline = [...tweets, ...taggedTweets].sort(
       (a, b) => b.createdAt.getTime() - a.createdAt.getTime()

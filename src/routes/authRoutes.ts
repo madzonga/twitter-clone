@@ -1,26 +1,11 @@
 import { Router } from 'express';
-import { check } from 'express-validator';
 import { signUp, logIn } from '../controllers/authController';
+import { signUpSchema, loginSchema } from '../validation/authValidation';
+import validate from '../middlewares/validate';
 
 const router = Router();
 
-router.post(
-  '/signup',
-  [
-    check('username', 'Username is required').not().isEmpty(),
-    check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Please enter a password with 6 or more characters').isLength({ min: 6 }),
-  ],
-  signUp
-);
-
-router.post(
-  '/login',
-  [
-    check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Password is required').exists(),
-  ],
-  logIn
-);
+router.post('/signup', validate(signUpSchema), signUp);
+router.post('/login', validate(loginSchema), logIn);
 
 export default router;
