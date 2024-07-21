@@ -23,7 +23,7 @@ class Tweet extends Model<TweetAttributes, TweetCreationAttributes> implements T
     Tweet.init(
       {
         id: {
-          type: DataTypes.INTEGER.UNSIGNED,
+          type: DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true,
         },
@@ -32,7 +32,7 @@ class Tweet extends Model<TweetAttributes, TweetCreationAttributes> implements T
           allowNull: false,
         },
         userId: {
-          type: DataTypes.INTEGER.UNSIGNED,
+          type: DataTypes.INTEGER,
           allowNull: false,
         },
       },
