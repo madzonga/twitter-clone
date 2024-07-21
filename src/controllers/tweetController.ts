@@ -42,27 +42,4 @@ const createTweet = async (req: Request, res: Response) => {
   }
 };
 
-const getTweetsByMention = async (req: Request, res: Response) => {
-  try {
-    const user = req.user as User;
-    const tweets = await Tweet.findAll({
-      include: [
-        {
-          model: User,
-          through: {
-            attributes: [],
-          },
-          where: {
-            id: user.id,
-          },
-        },
-      ],
-    });
-    res.json(tweets);
-  } catch (err: any) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
-};
-
-export { createTweet, getTweetsByMention };
+export { createTweet };
