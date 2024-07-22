@@ -59,6 +59,8 @@ Testing
 
 - POSTMAN collection ```Twitter Clone API.postman_collection.json``` is in the repository. 
 
+- Application uses SQLite so there's no need to setup a SQL database for example.
+
 ## 6. Stopping Redis Container
 
 ```
