@@ -55,6 +55,8 @@ Start the Application
 Testing
 - ```npm test```
 
+- POSTMAN collection ```Twitter Clone API.postman_collection.json``` is in the repository. 
+
 ## 6. Stopping Redis Container
 
 ```
@@ -66,3 +68,9 @@ Troubleshooting
 
 - Redis is not running: Ensure Docker is running and that the Redis container is up. Use docker ps to verify the container is active.
 - Cannot connect to Redis: Check if Redis is accessible at localhost:6379. Ensure no firewall or network issues are blocking the connection.
+
+## 7. Future features to look forward to
+
+- Multimedia Support: Allow users to upload and share multimedia content such as images, videos, and GIFs with integrated previews.
+- Direct Messaging: Add a private messaging feature allowing users to communicate directly with each other.
+- Personalized Feed Algorithm: Implement a machine-learning-based feed algorithm that tailors content to individual users based on their interests, behavior, and connections.
