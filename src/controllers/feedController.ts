@@ -27,7 +27,7 @@ const getTimeline = async (req: Request, res: Response) => {
           where: {
             id: user.id
           },
-          attributes: ['id', 'username'], // Adjust attributes as needed
+          attributes: ['id', 'username'],
           through: {
             attributes: [] // Exclude join table attributes
           }

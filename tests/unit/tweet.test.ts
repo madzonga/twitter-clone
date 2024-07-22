@@ -33,7 +33,7 @@ jest.mock('../../src/models/User', () => {
 // Mock the Queue
 jest.mock('../../src/queues/tweetQueue', () => ({
   add: jest.fn(),
-  close: jest.fn() // Add a close method to mock
+  close: jest.fn()
 }));
 
 const mockUser = require('../../src/models/User');

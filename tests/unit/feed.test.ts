@@ -3,7 +3,7 @@
 import dotenv from 'dotenv';
 import request from 'supertest';
 import app from '../../src/app';
-import jwt from 'jsonwebtoken';
+import { generateToken } from '../utils';
 dotenv.config({ path: '.env.test' });
 
 // Mock the Tweet model
@@ -33,14 +33,6 @@ jest.mock('../../src/models/User', () => {
 
 const mockUser = require('../../src/models/User');
 const mockTweet = require('../../src/models/Tweet');
-
-// Helper function to generate a JWT token
-const generateToken = (user: object) => {
-  const token = jwt.sign({ user }, process.env.JWT_SECRET || 'defaultsecret', {
-    expiresIn: '1h'
-  });
-  return token;
-};
 
 beforeEach(() => {
   jest.clearAllMocks();

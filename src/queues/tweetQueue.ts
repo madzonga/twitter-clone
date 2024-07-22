@@ -31,7 +31,7 @@ tweetQueue.process(async (job, done) => {
     if (mentions) {
       for (const mention of mentions) {
         const username = mention.slice(1);
-        const taggedUser = await User.findOne({ where: { username } }); // Pass the transaction
+        const taggedUser = await User.findOne({ where: { username } });
         if (taggedUser) {
           await Tag.create({
             tweetId: tweet.id,
