@@ -1,6 +1,9 @@
 import Queue from 'bull';
 import dotenv from 'dotenv';
-import { sequelize, Tweet, Tag, User } from '../models';
+import { sequelize } from '../models';
+import Tweet from '../models/Tweet';
+import User from '../models/User';
+import Tag from '../models/Tag';
 
 dotenv.config();
 

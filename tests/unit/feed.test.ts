@@ -10,7 +10,10 @@ dotenv.config({ path: '.env.test' });
 jest.mock('../../src/models/Tweet', () => {
   return {
     create: jest.fn(),
-    findAll: jest.fn()
+    findAll: jest.fn(),
+    initialize: jest.fn(),
+    belongsToMany: jest.fn(),
+    belongsTo: jest.fn()
   };
 });
 
@@ -21,7 +24,10 @@ jest.mock('../../src/models/User', () => {
     ...originalModule,
     create: jest.fn(),
     findOne: jest.fn(),
-    findAll: jest.fn()
+    findAll: jest.fn(),
+    initialize: jest.fn(),
+    belongsToMany: jest.fn(),
+    hasMany: jest.fn()
   };
 });
 

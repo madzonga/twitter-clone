@@ -10,11 +10,25 @@ jest.mock('../../src/models/User', () => {
   return {
     ...originalModule,
     create: jest.fn(),
-    findOne: jest.fn()
+    findOne: jest.fn(),
+    initialize: jest.fn(),
+    findAll: jest.fn(),
+    belongsToMany: jest.fn(),
+    hasMany: jest.fn()
   };
 });
 
-// Mock the User model
+// Mock the Tweet model
+jest.mock('../../src/models/Tweet', () => {
+  return {
+    create: jest.fn(),
+    findAll: jest.fn(),
+    initialize: jest.fn(),
+    belongsToMany: jest.fn(),
+    belongsTo: jest.fn()
+  };
+});
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const mockUser = require('../../src/models/User');
 

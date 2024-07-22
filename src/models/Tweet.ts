@@ -1,5 +1,4 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
-import User from './User';
 
 interface TweetAttributes {
   id: number;
@@ -19,26 +18,26 @@ class Tweet extends Model<TweetAttributes, TweetCreationAttributes> implements T
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  public static initialize(sequelize: Sequelize) {
+  public static initialize (sequelize: Sequelize) {
     Tweet.init(
       {
         id: {
           type: DataTypes.INTEGER,
           autoIncrement: true,
-          primaryKey: true,
+          primaryKey: true
         },
         content: {
           type: DataTypes.STRING(280),
-          allowNull: false,
+          allowNull: false
         },
         userId: {
           type: DataTypes.INTEGER,
-          allowNull: false,
-        },
+          allowNull: false
+        }
       },
       {
         sequelize,
-        tableName: 'tweets',
+        tableName: 'tweets'
       }
     );
   }

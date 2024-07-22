@@ -40,6 +40,8 @@ cd twitter-clone
 
 ## 4. Environment Configuration
 
+- add this to your .env file
+
 ```
 JWT_SECRET=your_jwt_secret
 PORT=3000
