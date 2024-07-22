@@ -37,11 +37,19 @@ const getTimeline = async (req: Request, res: Response) => {
     });
     const taggedTweetsArray = taggedTweets || []; // Ensure taggedTweetsArray is an empty array if taggedTweets is undefined or null
 
-    const timeline = [...tweetsArray, ...taggedTweetsArray].sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    // Merge tweets and taggedTweets, then sort and remove duplicates
+    const timeline = [
+      ...tweetsArray,
+      ...taggedTweetsArray
+    ];
 
-    res.json(timeline);
+    // Use a Map to filter out duplicate tweets based on the tweet ID
+    const uniqueTimeline = Array.from(new Map(timeline.map(tweet => [tweet.id, tweet])).values());
+
+    // Sort the timeline by createdAt date
+    uniqueTimeline.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+    res.json(uniqueTimeline);
   } catch (err: any) {
     console.error(err.message);
     res.status(500).send('Server error');
