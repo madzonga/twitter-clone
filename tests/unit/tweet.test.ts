@@ -5,7 +5,6 @@ import request from 'supertest';
 import app from '../../src/app';
 import jwt from 'jsonwebtoken';
 
-
 // Mock the Tweet model
 jest.mock('../../src/models/Tweet', () => {
   return {
@@ -25,8 +24,15 @@ jest.mock('../../src/models/User', () => {
   };
 });
 
+// Mock the Queue
+jest.mock('../../src/queues/tweetQueue', () => ({
+  add: jest.fn(),
+  close: jest.fn(),  // Add a close method to mock
+}));
+
 const mockUser = require('../../src/models/User');
 const mockTweet = require('../../src/models/Tweet');
+const mockQueue = require('../../src/queues/tweetQueue');
 
 // Helper function to generate a JWT token
 const generateToken = (user: any) => {
@@ -71,8 +77,12 @@ describe('Tweet Routes', () => {
       });
 
     expect(res.statusCode).toEqual(201);
-    expect(res.body).toHaveProperty('content', 'This is a new tweet from user1');
-    expect(res.body).toHaveProperty('userId', user.id);
+    expect(res.body).toEqual({ message: 'Tweet is being processed' });
+
+    expect(mockQueue.add).toHaveBeenCalledWith({
+      content: 'This is a new tweet from user1',
+      userId: user.id,
+    });
   });
 
   it('should not create a tweet if unauthenticated', async () => {
@@ -107,10 +117,10 @@ describe('Tweet Routes', () => {
 
     expect(res.statusCode).toEqual(400);
     expect(res.body).toHaveProperty('error');
+    expect(res.body.error).toContain('length must be less than or equal to 280 characters long');
   });
 });
 
-// Close the database connection after all tests are done
 afterAll(async () => {
-  // Any necessary cleanup can be done here
+  await mockQueue.close();  // Ensure to close the mocked queue
 });

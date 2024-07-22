@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import Tweet from '../models/Tweet';
+import tweetQueue from '../queues/tweetQueue';
 import User from '../models/User';
-import Tag from '../models/Tag';
 
 const createTweet = async (req: Request, res: Response) => {
   const errors = validationResult(req);
@@ -15,27 +14,14 @@ const createTweet = async (req: Request, res: Response) => {
   try {
     const user = req.user as User;
 
-    const tweet = await Tweet.create({
+    console.log('Adding job to queue');
+    await tweetQueue.add({
       content,
       userId: user.id,
     });
+    console.log('Job added to queue');
 
-    // Extract and handle mentions
-    const mentions = content.match(/@\w+/g);
-    if (mentions) {
-      for (const mention of mentions) {
-        const username = mention.slice(1);
-        const taggedUser = await User.findOne({ where: { username } });
-        if (taggedUser) {
-          await Tag.create({
-            tweetId: tweet.id,
-            userId: taggedUser.id,
-          });
-        }
-      }
-    }
-
-    res.status(201).json(tweet);
+    res.status(201).json({ message: 'Tweet is being processed' });
   } catch (err: any) {
     console.error(err.message);
     res.status(500).send('Server error');
