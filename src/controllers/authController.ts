@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -22,17 +23,17 @@ const signUp = async (req: Request, res: Response) => {
     user = await User.create({
       username,
       email,
-      password: await bcrypt.hash(password, 10),
+      password: await bcrypt.hash(password, 10)
     });
 
     const payload = {
       user: {
-        id: user.id,
-      },
+        id: user.id
+      }
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
-      expiresIn: '1h',
+      expiresIn: '1h'
     });
 
     res.status(201).json({ token });
@@ -65,12 +66,12 @@ const logIn = async (req: Request, res: Response) => {
 
     const payload = {
       user: {
-        id: user.id,
-      },
+        id: user.id
+      }
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
-      expiresIn: '1h',
+      expiresIn: '1h'
     });
 
     res.json({ token });

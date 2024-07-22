@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import tweetQueue from '../queues/tweetQueue';
@@ -17,7 +18,7 @@ const createTweet = async (req: Request, res: Response) => {
     console.log('Adding job to queue');
     await tweetQueue.add({
       content,
-      userId: user.id,
+      userId: user.id
     });
     console.log('Job added to queue');
 

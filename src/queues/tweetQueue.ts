@@ -9,8 +9,8 @@ dotenv.config();
 const tweetQueue = new Queue('tweetQueue', {
   redis: {
     host: process.env.REDIS_HOST,
-    port: Number(process.env.REDIS_PORT),
-  },
+    port: Number(process.env.REDIS_PORT)
+  }
 });
 
 tweetQueue.process(async (job, done) => {
@@ -20,7 +20,7 @@ tweetQueue.process(async (job, done) => {
 
     const tweet = await Tweet.create({
       content,
-      userId,
+      userId
     });
 
     // Extract and handle mentions
@@ -32,7 +32,7 @@ tweetQueue.process(async (job, done) => {
         if (taggedUser) {
           await Tag.create({
             tweetId: tweet.id,
-            userId: taggedUser.id,
+            userId: taggedUser.id
           });
         }
       }
@@ -40,9 +40,9 @@ tweetQueue.process(async (job, done) => {
 
     console.log('Job processed:', job.id);
     done();
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error processing job:', error);
-    done(error);
+    done(error as Error);
   }
 });
 

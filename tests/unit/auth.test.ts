@@ -1,20 +1,21 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: '.env.test' });
-
 import request from 'supertest';
 import app from '../../src/app';
 import bcrypt from 'bcryptjs';
+
+dotenv.config({ path: '.env.test' });
 
 jest.mock('../../src/models/User', () => {
   const originalModule = jest.requireActual('../../src/models/User');
   return {
     ...originalModule,
     create: jest.fn(),
-    findOne: jest.fn(),
+    findOne: jest.fn()
   };
 });
 
 // Mock the User model
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const mockUser = require('../../src/models/User');
 
 beforeEach(() => {
@@ -27,7 +28,7 @@ describe('Auth Routes', () => {
       id: 1,
       username: 'testuser',
       email: 'test@example.com',
-      password: 'password123',
+      password: 'password123'
     });
 
     const res = await request(app)
@@ -35,7 +36,7 @@ describe('Auth Routes', () => {
       .send({
         username: 'testuser',
         email: 'test@example.com',
-        password: 'password123',
+        password: 'password123'
       });
 
     expect(res.statusCode).toEqual(201);
@@ -47,7 +48,7 @@ describe('Auth Routes', () => {
       id: 1,
       username: 'testuser',
       email: 'test@example.com',
-      password: 'password123',
+      password: 'password123'
     });
 
     const res = await request(app)
@@ -55,7 +56,7 @@ describe('Auth Routes', () => {
       .send({
         username: 'testuser2',
         email: 'test@example.com',
-        password: 'password123',
+        password: 'password123'
       });
 
     expect(res.statusCode).toEqual(400);
@@ -66,14 +67,14 @@ describe('Auth Routes', () => {
       id: 2,
       username: 'testuser3',
       email: 'login@example.com',
-      password: await bcrypt.hash('password123', 10),
+      password: await bcrypt.hash('password123', 10)
     });
 
     const res = await request(app)
       .post('/auth/login')
       .send({
         email: 'login@example.com',
-        password: 'password123',
+        password: 'password123'
       });
 
     expect(res.statusCode).toEqual(200);
@@ -85,14 +86,14 @@ describe('Auth Routes', () => {
       id: 3,
       username: 'testuser4',
       email: 'incorrect@example.com',
-      password: 'password123',
+      password: 'password123'
     });
 
     const res = await request(app)
       .post('/auth/login')
       .send({
         email: 'incorrect@example.com',
-        password: 'wrongpassword',
+        password: 'wrongpassword'
       });
 
     expect(res.statusCode).toEqual(400);

@@ -13,26 +13,26 @@ class Tag extends Model<TagAttributes, TagCreationAttributes> implements TagAttr
   public tweetId!: number;
   public userId!: number;
 
-  public static initialize(sequelize: Sequelize) {
+  public static initialize (sequelize: Sequelize) {
     Tag.init(
       {
         id: {
           type: DataTypes.INTEGER,
           autoIncrement: true,
-          primaryKey: true,
+          primaryKey: true
         },
         tweetId: {
           type: DataTypes.INTEGER,
-          allowNull: false,
+          allowNull: false
         },
         userId: {
           type: DataTypes.INTEGER,
-          allowNull: false,
-        },
+          allowNull: false
+        }
       },
       {
         sequelize,
-        tableName: 'tags',
+        tableName: 'tags'
       }
     );
   }
