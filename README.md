@@ -69,7 +69,11 @@ Troubleshooting
 - Redis is not running: Ensure Docker is running and that the Redis container is up. Use docker ps to verify the container is active.
 - Cannot connect to Redis: Check if Redis is accessible at localhost:6379. Ensure no firewall or network issues are blocking the connection.
 
-## 7. Future features to look forward to
+## 7. Special features
+
+- For scalability and performance, the create tweet controller goes through a queue (Redis) to ensure our application can handle requests async.  
+
+## 8. Future features to look forward to
 
 - Multimedia Support: Allow users to upload and share multimedia content such as images, videos, and GIFs with integrated previews.
 - Direct Messaging: Add a private messaging feature allowing users to communicate directly with each other.
